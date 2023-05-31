@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
 
 const userSchema=new mongoose.Schema({
     name:{
@@ -31,8 +33,29 @@ const userSchema=new mongoose.Schema({
         completed:Boolean,
         createdAt:Date
     }],
+    verified:{
+        type:Boolean,
+        default:false,
+    },
     otp:Number,
     otp_expiry:Date
 })
+
+userSchema.pre("save",async function(next){
+    if(!this.isModified("password")){
+        return next()
+    }
+    const salt=await bcrypt.genSalt(10)
+    const hashedPassword=await bcrypt.hash(this.password,salt)
+    this.password=hashedPassword;
+    next()
+})
+
+userSchema.methods.getJWTToken=function(){
+    return jwt.sign({_id:this._id},process.env.JWT_SECRET,{
+        expiresIn:process.env.JWT_COOKIE_EXPIRE
+    })
+
+}
 
 export const User=mongoose.model("todo_app_user",userSchema)
