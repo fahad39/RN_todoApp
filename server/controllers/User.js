@@ -1,5 +1,6 @@
 import { now } from "mongoose";
 import { User } from "../models/user.js";
+import { sendMail } from "../utils/sendMail.js";
 
 export const register=async(req,res)=>{
     try {
@@ -23,6 +24,9 @@ export const register=async(req,res)=>{
             otp,
             otp_expiry:new Date(Date,now()+process.env.OTP_EXPIRE*60*1000)
         })
+
+        await sendMail(email,"Verify your account",`Your OTP is ${otp}`)
+
         
     } catch (error) {
         res.status(500).json({success:false,message:error.message})
