@@ -9,7 +9,8 @@ export const sendToken=(res,user,statusCode,message)=>{
         name:user.name,
         email:user.email,
         avatar:user.avatar,
-        tasks:user.tasks
+        tasks:user.tasks,
+        verified:user.verified
     }
 
     res.status(statusCode).cookie("token",token,options).json({
