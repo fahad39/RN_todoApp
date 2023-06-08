@@ -128,3 +128,18 @@ export const logout=async(req,res)=>{
         res.status(500).json({success:false,message:error.message})
     }
 }
+
+export const addTask=async(req,res)=>{
+    try {
+        
+       const {title,description}=req.body
+       const user=await User.findById(req.user._id)
+       user.task.push({title,description,completed:false,createdAt:new Date(Date.now())})
+       await user.save()
+       res.status(200).json({success:true,message:"Task added successfully"})
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
