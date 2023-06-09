@@ -160,6 +160,29 @@ export const updateProfile=async(req,res)=>{
     }
 }
 
+export const updatePassword=async(req,res)=>{
+    try {
+        
+       const user=await User.findById(req.user._id).select("+password")
+       const {oldPassword,newPassword}=req.body
+       const isMatch=await user.comparePassword(oldPassword)
+       if(!isMatch){
+        return res
+            .status(400)
+            .json({success:false,message:"invalid old Password"})
+       }
+       user.password=newPassword
+       await user.save()
+       
+       res.status(200).json({success:true,message:"Password updated successfully"})
+      
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
 export const addTask=async(req,res)=>{
     try {
         

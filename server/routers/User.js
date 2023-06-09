@@ -1,5 +1,5 @@
 import express from "express";
-import { addTask, getMyProfile, login, logout, register, removeTask, updateProfile, updateTask, verify } from "../controllers/User.js";
+import { addTask, getMyProfile, login, logout, register, removeTask, updatePassword, updateProfile, updateTask, verify } from "../controllers/User.js";
 import { isAuthenticated } from "../middleware/auth.js";
 
 const router=express.Router();
@@ -10,7 +10,8 @@ router.route("/login").post(login)
 router.route("/logout").get(logout)
 router.route("/addtask").post(isAuthenticated,addTask)
 router.route("/getmyprofile").get(isAuthenticated,getMyProfile)
-router.route("/updatemyprofile").post(isAuthenticated,updateProfile)
+router.route("/updatemyprofile").put(isAuthenticated,updateProfile)
+router.route("/updatepassword").put(isAuthenticated,updatePassword)
 router
     .route("/task/:taskId")
     .delete(isAuthenticated,removeTask)
