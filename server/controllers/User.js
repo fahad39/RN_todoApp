@@ -143,3 +143,33 @@ export const addTask=async(req,res)=>{
         res.status(500).json({success:false,message:error.message})
     }
 }
+
+export const removeTask=async(req,res)=>{
+    try {
+        
+       const {taskId}=req.params
+       const user=await User.findById(req.user._id)
+       user.task=user.task.filter(task=>task._id.toString() !== taskId.toString())
+       await user.save()
+       res.status(200).json({success:true,message:"Task removed successfully"})
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
+export const updateTask=async(req,res)=>{
+    try {
+        const {taskId}=req.params
+       const user=await User.findById(req.user._id)
+       const object=user.task.find(task=>task._id.toString() === taskId.toString())
+       object.completed=!object.completed
+       await user.save()
+       res.status(200).json({success:true,message:"Task updated successfully"})
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
