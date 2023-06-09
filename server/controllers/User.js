@@ -31,9 +31,8 @@ export const register=async(req,res)=>{
             task:[]
         })
 
-        console.log("sending email now")
         await sendMail(email,"Verify your account",`Your OTP is ${otp}`)
-        console.log("email sent")
+        
         sendToken(res,user,201,"OTP sent to your email, Please verify your account")
         
     } catch (error) {
@@ -121,6 +120,38 @@ export const logout=async(req,res)=>{
             success:true,
             message:"Logged out successfully"
         })
+      
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
+export const getMyProfile=async(req,res)=>{
+    try {
+        
+       const user=await User.findById(req.user._id)
+       sendToken(res,user,201,`Welcome back ${user.name}`)
+      
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
+export const updateProfile=async(req,res)=>{
+    try {
+        
+       const user=await User.findById(req.user._id)
+       const {name}=req.body
+       if(name){
+        user.name=name
+       }
+       await user.save()
+       
+       res.status(200).json({success:true,message:"profile updated successfully"})
       
         
         
