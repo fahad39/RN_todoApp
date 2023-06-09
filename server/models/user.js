@@ -38,7 +38,9 @@ const userSchema=new mongoose.Schema({
         default:false,
     },
     otp:Number,
-    otp_expiry:Date
+    otp_expiry:Date,
+    resetPasswordOtp:Number,
+    resetPasswordOtpExpiry:Date
 })
 
 userSchema.pre("save",async function(next){

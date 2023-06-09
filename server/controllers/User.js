@@ -165,6 +165,9 @@ export const updatePassword=async(req,res)=>{
         
        const user=await User.findById(req.user._id).select("+password")
        const {oldPassword,newPassword}=req.body
+       if(!oldPassword || !newPassword){
+        res.status(400).json({sucess:false,message:"Please enter all fields"})
+       }
        const isMatch=await user.comparePassword(oldPassword)
        if(!isMatch){
         return res
@@ -175,6 +178,28 @@ export const updatePassword=async(req,res)=>{
        await user.save()
        
        res.status(200).json({success:true,message:"Password updated successfully"})
+      
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+export const forgetPassword=async(req,res)=>{
+    try {
+        
+       const {email}=req.body
+       const user=await User.findOne({email})
+       if(!user){
+        res.status(400).json({sucess:false,message:"No User Found"})
+       }
+      
+       const otp=Math.floor(Math.random()*1000000)
+       user.resetPasswordOtp=otp
+       user.resetPasswordOtpExpiry=Date.now()+10*60*1000
+       await user.save()
+       await sendMail(email,"Request for Reseting Password", `your otp is ${otp}`)
+       res.status(200).json({success:true,message:`OTP sent to ${email}`})
       
         
         
