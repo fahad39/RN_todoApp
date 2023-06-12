@@ -25,7 +25,6 @@ export const register=async(req,res)=>{
         const myCloud=await cloudinary.v2.uploader.upload(filepath,{
             folder:"rn_todoapp"
         })
-        console.log("cloud success")
         fs.rmSync("./tmp",{recursive:true})
         user=await User.create({
             name,
@@ -157,8 +156,19 @@ export const updateProfile=async(req,res)=>{
         
        const user=await User.findById(req.user._id)
        const {name}=req.body
+       const {avatar}=req.files
        if(name){
         user.name=name
+       }
+       if(avatar){
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id)
+        const filepath=avatar.tempFilePath
+        const mycloud=await cloudinary.v2.uploader.upload(filepath)
+        fs.rmSync("./tmp",{recursive:true})
+        user.avatar={
+            public_id:mycloud.public_id,
+            url:mycloud.secure_url
+        }
        }
        await user.save()
        
