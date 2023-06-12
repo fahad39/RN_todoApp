@@ -2,11 +2,14 @@ import { now } from "mongoose";
 import { User } from "../models/user.js";
 import { sendMail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
+import cloudinary from "cloudinary"
+import fs from "fs"
 
 export const register=async(req,res)=>{
     try {
         const {name,email,password}=req.body
-        // const {avatar}=req.files
+        const {avatar}=req.files
+        
         
         let user= await User.findOne({email})
         if(user){
@@ -18,13 +21,19 @@ export const register=async(req,res)=>{
                 })
         }
         const otp=Math.floor(Math.random()*1000000)
+        const filepath=avatar.tempFilePath
+        const myCloud=await cloudinary.v2.uploader.upload(filepath,{
+            folder:"rn_todoapp"
+        })
+        console.log("cloud success")
+        fs.rmSync("./tmp",{recursive:true})
         user=await User.create({
             name,
             email,
             password,
             avatar:{
-                public_id:"",
-                url:""
+                public_id:myCloud.public_id,
+                url:myCloud.secure_url
             },
             otp,
             otp_expiry:new Date(Date.now()+process.env.OTP_EXPIRE*24*60*60*1000),
@@ -34,6 +43,8 @@ export const register=async(req,res)=>{
         await sendMail(email,"Verify your account",`Your OTP is ${otp}`)
         
         sendToken(res,user,201,"OTP sent to your email, Please verify your account")
+
+        
         
     } catch (error) {
         res.status(500).json({success:false,message:error.message})
