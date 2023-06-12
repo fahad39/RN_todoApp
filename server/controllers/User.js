@@ -208,6 +208,29 @@ export const forgetPassword=async(req,res)=>{
     }
 }
 
+export const resetPassword=async(req,res)=>{
+    try {
+        
+       const {otp,newPassword}=req.body
+       const user=await User.findOne({resetPasswordOtp:otp,resetPasswordOtpExpiry:{$gt:Date.now()}}).select("+password")
+       if(!user){
+        res.status(400).json({sucess:false,message:"Invalid OTP or OTP has been expired"})
+       }
+      
+       user.password=newPassword
+       user.resetPasswordOtp=null
+       user.resetPasswordOtpExpiry=null
+       await user.save()
+       
+       res.status(200).json({success:true,message:`Password Changed Successfully`})
+      
+        
+        
+    } catch (error) {
+        res.status(500).json({success:false,message:error.message})
+    }
+}
+
 export const addTask=async(req,res)=>{
     try {
         
