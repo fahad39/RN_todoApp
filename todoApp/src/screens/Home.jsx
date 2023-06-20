@@ -6,12 +6,33 @@ import Task from '../components/Task';
 
 const Home = () => {
   const navigation = useNavigation();
-  const tasks = [1, 2, 1];
+  const tasks = [
+    {
+      title: 'Task1',
+      description: 'Simple Task',
+      completed: false,
+      _id: 'djfhksadhfkshf',
+    },
+    {
+      title: 'Task2',
+      description: 'Simple Task',
+      completed: false,
+      _id: 'dfsdafdfgffffff',
+    },
+  ];
   return (
     <View style={style.container}>
       <Text style={style.heading}>All Tasks</Text>
       {tasks.map((item, index) => {
-        return <Task key={index} title={item} />;
+        return (
+          <Task
+            key={item._id}
+            title={item.title}
+            description={item.description}
+            status={item.completed}
+            taskId={item._id}
+          />
+        );
       })}
     </View>
   );
