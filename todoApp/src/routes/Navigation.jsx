@@ -19,7 +19,11 @@ const Navigation = () => {
           component={Home}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={ROUTE.Login} component={Login} />
+        <Stack.Screen
+          name={ROUTE.Login}
+          component={Login}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name={ROUTE.Profile} component={Profile} />
       </Stack.Navigator>
       <Footer />
