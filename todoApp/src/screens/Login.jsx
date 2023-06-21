@@ -56,9 +56,24 @@ const styles = StyleSheet.create({
   },
   container2: {
     width: '70%',
+    alignItems: 'center',
   },
-  input1: {},
-  btn: {},
+  input1: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#b5b5b5',
+    padding: 1,
+    paddingLeft: 15,
+    borderRadius: 5,
+    marginVertical: 15,
+    fontSize: 15,
+    width: '100%',
+  },
+  btn: {
+    backgroundColor: '#900',
+    padding: 5,
+    width: '70%',
+  },
   txt2: {
     color: '#fff',
   },
