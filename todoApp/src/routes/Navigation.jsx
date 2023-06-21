@@ -8,6 +8,7 @@ import Login from '../screens/Login';
 import Footer from '../components/Footer';
 import Profile from '../screens/Profile';
 import Register from '../screens/Register';
+import Camera from '../screens/Camera';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,11 @@ const Navigation = () => {
         <Stack.Screen
           name={ROUTE.Register}
           component={Register}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={ROUTE.Camera}
+          component={Camera}
           options={{headerShown: false}}
         />
         <Stack.Screen name={ROUTE.Profile} component={Profile} />

@@ -3,4 +3,5 @@ export const ROUTE = {
   Login: 'login',
   Profile: 'profile',
   Register: 'register',
+  Camera: 'camera',
 };

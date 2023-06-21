@@ -17,7 +17,7 @@ const Register = ({navigation}) => {
 
   const registerHandle = () => {};
   const handleImage = () => {
-    // add navigation here
+    navigation.navigate(ROUTE.Camera);
   };
 
   return (
@@ -27,7 +27,7 @@ const Register = ({navigation}) => {
         source={{uri: avatar ? avatar : null}}
         style={styles.avatarStyle}
       />
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleImage}>
         <Text style={styles.txt3}>Change Photo</Text>
       </TouchableOpacity>
       <View style={styles.container2}>
