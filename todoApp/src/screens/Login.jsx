@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {TextInput} from 'react-native-paper';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Button, TextInput} from 'react-native-paper';
+import {ROUTE} from '../common/Route';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginHandler = () => {};
+
   return (
     <View style={styles.container1}>
       <Text style={styles.txt1}>WELCOME</Text>
@@ -14,6 +19,23 @@ const Login = () => {
           value={email}
           onChange={setEmail}
         />
+        <TextInput
+          style={styles.input1}
+          placeholder="Password"
+          value={password}
+          onChange={setPassword}
+          secureTextEntry
+        />
+        <Button
+          disabled={!email || !password}
+          style={styles.btn}
+          onPress={loginHandler}>
+          <Text style={styles.txt2}>Login</Text>
+        </Button>
+        <Text style={styles.txt3}>Or</Text>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTE.Register)}>
+          <Text style={styles.txt4}>Sign Up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -36,4 +58,16 @@ const styles = StyleSheet.create({
     width: '70%',
   },
   input1: {},
+  btn: {},
+  txt2: {
+    color: '#fff',
+  },
+  txt3: {
+    marginTop: 20,
+  },
+  txt4: {
+    color: '#900',
+    height: 30,
+    margin: 20,
+  },
 });
