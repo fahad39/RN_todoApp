@@ -8,13 +8,11 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import Navigation from './src/routes/Navigation';
-import Footer from './src/components/Footer';
 
 function App() {
   return (
     <SafeAreaView style={style.container}>
       <Navigation />
-      <Footer />
     </SafeAreaView>
   );
 }
