@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {Avatar, Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const Register = ({navigation}) => {
   const [avatar, setAvatar] = useState('');
@@ -16,8 +17,16 @@ const Register = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const registerHandle = () => {};
-  const handleImage = () => {
-    navigation.navigate(ROUTE.Camera);
+  const handleImage = async () => {
+    let options = {
+      storageOptions: {
+        path: 'image',
+      },
+    };
+    const result = await launchImageLibrary(options, res => {
+      const img = res.assets[0].uri;
+      setAvatar(img);
+    });
   };
 
   return (
