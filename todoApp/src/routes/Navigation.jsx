@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,13 +8,22 @@ import Login from '../screens/Login';
 import Footer from '../components/Footer';
 import Profile from '../screens/Profile';
 import Register from '../screens/Register';
+import {useSelector, useDispatch} from 'react-redux';
+import {loadUser} from '../redux/action';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+  const {isAuthenticated, loading} = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={ROUTE.Login}>
+      <Stack.Navigator
+        initialRouteName={isAuthenticated ? ROUTE.Home : ROUTE.Login}>
         <Stack.Screen
           name={ROUTE.Home}
           component={Home}

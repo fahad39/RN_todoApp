@@ -1,13 +1,24 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
+import {useDispatch, useSelector} from 'react-redux';
+import {login} from '../redux/action';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const loginHandler = () => {};
+  const dispatch = useDispatch();
+  const loginHandler = () => {
+    dispatch(login(email, password));
+    console.log('Login');
+  };
 
   return (
     <View style={styles.container1}>
@@ -17,13 +28,13 @@ const Login = ({navigation}) => {
           style={styles.input1}
           placeholder="Email"
           value={email}
-          onChange={setEmail}
+          onChangeText={setEmail}
         />
         <TextInput
           style={styles.input1}
           placeholder="Password"
           value={password}
-          onChange={setPassword}
+          onChangeText={setPassword}
           secureTextEntry
         />
         <Button
