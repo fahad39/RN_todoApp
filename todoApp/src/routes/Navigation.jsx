@@ -10,6 +10,8 @@ import Profile from '../screens/Profile';
 import Register from '../screens/Register';
 import {useSelector, useDispatch} from 'react-redux';
 import {loadUser} from '../redux/action';
+import {Text} from 'react-native-paper';
+import Loader from '../components/Loader';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +22,9 @@ const Navigation = () => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={isAuthenticated ? ROUTE.Home : ROUTE.Login}>
@@ -41,7 +45,7 @@ const Navigation = () => {
         />
         <Stack.Screen name={ROUTE.Profile} component={Profile} />
       </Stack.Navigator>
-      <Footer />
+      {isAuthenticated && <Footer />}
     </NavigationContainer>
   );
 };

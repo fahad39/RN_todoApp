@@ -12,7 +12,6 @@ export const login = (email, password) => async dispatch => {
   try {
     dispatch(loginRequest());
     const {data} = await api.post('login', {email, password});
-    console.log('respone', data);
     dispatch(loginSuccess(data));
   } catch (error) {
     dispatch(loginFailure(error.response.data.message));

@@ -5,20 +5,29 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import {Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../redux/action';
+import {clearError} from '../redux/reducer';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [err, setErr] = useState('');
   const dispatch = useDispatch();
+  const {isAuthenticated, loading, error} = useSelector(state => state.auth);
   const loginHandler = () => {
+    dispatch(clearError());
     dispatch(login(email, password));
-    console.log('Login');
   };
+  useEffect(() => {
+    if (error !== '') {
+      setErr(error);
+    }
+  }, [error, dispatch]);
 
   return (
     <View style={styles.container1}>
@@ -37,16 +46,18 @@ const Login = ({navigation}) => {
           onChangeText={setPassword}
           secureTextEntry
         />
+
         <Button
           disabled={!email || !password}
           style={styles.btn}
           onPress={loginHandler}>
-          <Text style={styles.txt2}>Login</Text>
+          <Text style={styles.txt2}>{loading ? 'Loading' : 'Login'}</Text>
         </Button>
         <Text style={styles.txt3}>Or</Text>
         <TouchableOpacity onPress={() => navigation.navigate(ROUTE.Register)}>
           <Text style={styles.txt4}>Sign Up</Text>
         </TouchableOpacity>
+        <Text>{err}</Text>
       </View>
     </View>
   );
