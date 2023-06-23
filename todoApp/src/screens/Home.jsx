@@ -14,7 +14,7 @@ import Task from '../components/Task';
 import Icon from 'react-native-vector-icons/Entypo';
 import {Dialog, Button, TextInput, Snackbar} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import {addTask} from '../redux/action';
+import {addTask, loadUser} from '../redux/action';
 import {clearMessage, clearMessageError} from '../redux/messageReducer';
 
 const Home = () => {
@@ -25,6 +25,7 @@ const Home = () => {
   const {loading, message, error} = useSelector(state => state.message);
   const [err, setErr] = useState('');
   const [visible, setVisible] = useState(false);
+  const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
     if (error) {
@@ -42,10 +43,10 @@ const Home = () => {
   const hideDialog = () => {
     setOpenDialog(!openDialog);
   };
-  const addTaskHandler = () => {
+  const addTaskHandler = async () => {
     hideDialog();
-    disptach(addTask(title, description));
-    console.log('task added');
+    await disptach(addTask(title, description));
+    disptach(loadUser());
   };
   const tasks = [
     {
@@ -80,19 +81,21 @@ const Home = () => {
         <TouchableOpacity style={style.addBtn} onPress={hideDialog}>
           <Icon name="add-to-list" size={20} color="#900" />
         </TouchableOpacity>
-        <FlatList
-          keyExtractor={item => item._id}
-          data={tasks}
-          renderItem={({item}) => (
-            <Task
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              status={item.completed}
-              taskId={item._id}
-            />
-          )}
-        />
+        {user && (
+          <FlatList
+            keyExtractor={item => item._id}
+            data={user.task}
+            renderItem={({item}) => (
+              <Task
+                key={item._id}
+                title={item.title}
+                description={item.description}
+                status={item.completed}
+                taskId={item._id}
+              />
+            )}
+          />
+        )}
       </View>
       <Dialog visible={openDialog} onDismiss={hideDialog}>
         <Dialog.Title>Add a Task</Dialog.Title>
