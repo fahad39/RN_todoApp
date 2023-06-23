@@ -7,6 +7,7 @@ export const authSlice = createSlice({
     isAuthenticated: false,
     error: '',
     user: {},
+    message: '',
   },
   reducers: {
     loginRequest: state => {

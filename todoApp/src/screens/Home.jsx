@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,17 +12,39 @@ import {useNavigation} from '@react-navigation/native';
 import {ROUTE} from '../common/Route';
 import Task from '../components/Task';
 import Icon from 'react-native-vector-icons/Entypo';
-import {Dialog, Button, TextInput} from 'react-native-paper';
+import {Dialog, Button, TextInput, Snackbar} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
+import {addTask} from '../redux/action';
+import {clearMessage, clearMessageError} from '../redux/messageReducer';
 
 const Home = () => {
-  const navigation = useNavigation();
+  const disptach = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const {loading, message, error} = useSelector(state => state.message);
+  const [err, setErr] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setErr(error);
+      setVisible(true);
+      disptach(clearMessageError());
+    }
+    if (message) {
+      setErr(message);
+      setVisible(true);
+      disptach(clearMessage());
+    }
+  }, [error, message, disptach]);
+
   const hideDialog = () => {
     setOpenDialog(!openDialog);
   };
   const addTaskHandler = () => {
+    hideDialog();
+    disptach(addTask(title, description));
     console.log('task added');
   };
   const tasks = [
@@ -41,8 +63,23 @@ const Home = () => {
   ];
   return (
     <>
+      <Snackbar
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        elevation={6}
+        action={{
+          label: 'close',
+          onPress: () => {
+            setVisible(false);
+          },
+        }}>
+        {err}
+      </Snackbar>
       <View style={style.container}>
         <Text style={style.heading}>All Tasks</Text>
+        <TouchableOpacity style={style.addBtn} onPress={hideDialog}>
+          <Icon name="add-to-list" size={20} color="#900" />
+        </TouchableOpacity>
         <FlatList
           keyExtractor={item => item._id}
           data={tasks}
@@ -56,10 +93,6 @@ const Home = () => {
             />
           )}
         />
-
-        <TouchableOpacity style={style.addBtn} onPress={hideDialog}>
-          <Icon name="add-to-list" size={20} color="#900" />
-        </TouchableOpacity>
       </View>
       <Dialog visible={openDialog} onDismiss={hideDialog}>
         <Dialog.Title>Add a Task</Dialog.Title>
