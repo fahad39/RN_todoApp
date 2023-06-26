@@ -2,6 +2,9 @@ import {
   loginFailure,
   loginRequest,
   loginSuccess,
+  logoutFailure,
+  logoutRequest,
+  logoutSuccess,
   userFailure,
   userRequest,
   userSuccess,
@@ -69,5 +72,29 @@ export const deleteTask = taskId => async dispatch => {
     dispatch(deleteTaskSuccess(data.message));
   } catch (error) {
     dispatch(deleteTaskFailure(error.response.data.message));
+  }
+};
+
+export const updateProfile = formData => async dispatch => {
+  try {
+    dispatch(updateTaskRequest());
+    const {data} = await api.put(`updateprofile`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    dispatch(updateTaskSuccess(data.message));
+  } catch (error) {
+    dispatch(updateTaskFailure(error.response.data.message));
+  }
+};
+
+export const logout = formData => async dispatch => {
+  try {
+    dispatch(logoutRequest());
+    const {data} = await api.get(`logout`);
+    dispatch(logoutSuccess());
+  } catch (error) {
+    dispatch(logoutFailure(error.response.data.message));
   }
 };

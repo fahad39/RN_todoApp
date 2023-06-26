@@ -41,6 +41,28 @@ export const message = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    updateProfileRequest: state => {
+      state.loading = true;
+    },
+    updateProfileSuccess: (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    updateProfileFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    updatePasswordRequest: state => {
+      state.loading = true;
+    },
+    updatePasswordSuccess: (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    updatePasswordFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     clearMessageError: state => {
       state.error = null;
     },
@@ -62,6 +84,12 @@ export const {
   deleteTaskRequest,
   deleteTaskSuccess,
   deleteTaskFailure,
+  updateProfileRequest,
+  updateProfileSuccess,
+  updateProfileFailure,
+  updatePasswordRequest,
+  updatePasswordSuccess,
+  updatePasswordFailure,
 } = message.actions;
 
 export default message.reducer;
