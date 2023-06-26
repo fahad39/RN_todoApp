@@ -7,7 +7,17 @@ import {
   userSuccess,
 } from './reducer';
 import api from '../api/configAxios';
-import {addTaskFailure, addTaskRequest, addTaskSuccess} from './messageReducer';
+import {
+  addTaskFailure,
+  addTaskRequest,
+  addTaskSuccess,
+  deleteTaskFailure,
+  deleteTaskRequest,
+  deleteTaskSuccess,
+  updateTaskFailure,
+  updateTaskRequest,
+  updateTaskSuccess,
+} from './messageReducer';
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -41,5 +51,23 @@ export const addTask = (title, description) => async dispatch => {
     dispatch(addTaskSuccess(data.message));
   } catch (error) {
     dispatch(addTaskFailure(error.response.data.message));
+  }
+};
+export const updateTask = taskId => async dispatch => {
+  try {
+    dispatch(updateTaskRequest());
+    const {data} = await api.get(`task/${taskId}`);
+    dispatch(updateTaskSuccess(data.message));
+  } catch (error) {
+    dispatch(updateTaskFailure(error.response.data.message));
+  }
+};
+export const deleteTask = taskId => async dispatch => {
+  try {
+    dispatch(deleteTaskRequest());
+    const {data} = await api.delete(`task/${taskId}`);
+    dispatch(deleteTaskSuccess(data.message));
+  } catch (error) {
+    dispatch(deleteTaskFailure(error.response.data.message));
   }
 };

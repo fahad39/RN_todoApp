@@ -2,14 +2,19 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Checkbox} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useDispatch} from 'react-redux';
+import {deleteTask, updateTask} from '../redux/action';
 
 const Task = ({title, description, status = false, taskId}) => {
   const [completed, setCompleted] = useState(status);
+  const dispatch = useDispatch();
   const handleCheckBox = () => {
     setCompleted(!completed);
+    dispatch(updateTask(taskId));
   };
   const deleteHandler = () => {
     console.log('deleted task');
+    dispatch(deleteTask(taskId));
   };
   return (
     <View style={style.container}>
