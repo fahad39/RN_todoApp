@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTE} from '../common/Route';
 import Task from '../components/Task';
 import Icon from 'react-native-vector-icons/Entypo';
 import {Dialog, Button, TextInput, Snackbar} from 'react-native-paper';
@@ -48,26 +46,12 @@ const Home = () => {
     await disptach(addTask(title, description));
     disptach(loadUser());
   };
-  const tasks = [
-    {
-      title: 'Task1',
-      description: 'Simple Task',
-      completed: false,
-      _id: 'djfhksadhfkshf',
-    },
-    {
-      title: 'Task2',
-      description: 'Simple Task',
-      completed: false,
-      _id: 'dfsdafdfgffffff',
-    },
-  ];
   return (
     <>
       <Snackbar
         visible={visible}
         onDismiss={() => setVisible(false)}
-        elevation={6}
+        elevation={3}
         action={{
           label: 'close',
           onPress: () => {
@@ -116,7 +100,10 @@ const Home = () => {
             <TouchableOpacity onPress={hideDialog}>
               <Text>Cancel</Text>
             </TouchableOpacity>
-            <Button textColor="#900" onPress={addTaskHandler}>
+            <Button
+              textColor="#900"
+              onPress={addTaskHandler}
+              disabled={title === '' || description === '' || loading}>
               ADD
             </Button>
           </View>
