@@ -9,7 +9,8 @@ import {
 import {Avatar, Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
 import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../redux/action';
+import {loadUser, logout, updateProfile} from '../redux/action';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const Profile = ({navigation}) => {
   const {user} = useSelector(state => state.auth);
@@ -17,9 +18,28 @@ const Profile = ({navigation}) => {
   const [avatar, setAvatar] = useState(user?.avatar?.url);
   const [name, setName] = useState(user.name);
 
-  const handleImage = () => {};
+  const handleImage = async () => {
+    let options = {
+      storageOptions: {
+        path: 'image',
+      },
+    };
+    const result = await launchImageLibrary(options, res => {
+      const img = res.assets[0].uri;
+      setAvatar(img);
+    });
+  };
 
-  const submitHandler = () => {};
+  const submitHandler = () => {
+    const myForm = new FormData();
+    myForm.append('name', name);
+    myForm.append('avatar', {
+      uri: avatar,
+      name: avatar.split('/').pop(),
+    });
+    dispatch(updateProfile(myForm));
+    dispatch(loadUser());
+  };
 
   const logoutHandler = () => {
     dispatch(logout());

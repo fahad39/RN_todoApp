@@ -4,4 +4,5 @@ export const ROUTE = {
   Profile: 'profile',
   Register: 'register',
   Password: 'Password',
+  ForgetPassword: 'ForgetPassword',
 };

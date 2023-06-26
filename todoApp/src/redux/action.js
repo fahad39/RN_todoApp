@@ -21,6 +21,7 @@ import {
   updateTaskRequest,
   updateTaskSuccess,
 } from './messageReducer';
+import axios from 'axios';
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -78,7 +79,7 @@ export const deleteTask = taskId => async dispatch => {
 export const updateProfile = formData => async dispatch => {
   try {
     dispatch(updateTaskRequest());
-    const {data} = await api.put(`updateprofile`, formData, {
+    const {data} = await axios.put(`updatemyprofile`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -57,6 +57,9 @@ const Login = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate(ROUTE.Register)}>
           <Text style={styles.txt4}>Sign Up</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTE.Password)}>
+          <Text style={styles.txt4}>Forget Password</Text>
+        </TouchableOpacity>
         <Text>{err}</Text>
       </View>
     </View>
