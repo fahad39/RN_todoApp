@@ -5,6 +5,9 @@ import {
   logoutFailure,
   logoutRequest,
   logoutSuccess,
+  registerFailure,
+  registerRequest,
+  registerSuccess,
   userFailure,
   userRequest,
   userSuccess,
@@ -79,11 +82,15 @@ export const deleteTask = taskId => async dispatch => {
 export const updateProfile = formData => async dispatch => {
   try {
     dispatch(updateTaskRequest());
-    const {data} = await axios.put(`updatemyprofile`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    const {data} = await axios.put(
+      `https://rn-todo-backend.onrender.com/api/v1/updatemyprofile`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       },
-    });
+    );
     dispatch(updateTaskSuccess(data.message));
   } catch (error) {
     dispatch(updateTaskFailure(error.response.data.message));
@@ -97,5 +104,23 @@ export const logout = formData => async dispatch => {
     dispatch(logoutSuccess());
   } catch (error) {
     dispatch(logoutFailure(error.response.data.message));
+  }
+};
+
+export const registerProfile = formData => async dispatch => {
+  try {
+    dispatch(registerRequest());
+    const {data} = await axios.post(
+      `https://rn-todo-backend.onrender.com/api/v1/register`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    dispatch(registerSuccess(data.message));
+  } catch (error) {
+    dispatch(registerFailure(error.response.data.message));
   }
 };

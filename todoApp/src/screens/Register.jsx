@@ -9,14 +9,28 @@ import {
 import {Avatar, Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch} from 'react-redux';
+import {registerProfile} from '../redux/action';
 
 const Register = ({navigation}) => {
+  const dispatch = useDispatch();
   const [avatar, setAvatar] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const registerHandle = () => {};
+  const registerHandle = () => {
+    const myForm = new FormData();
+    myForm.append('name', name);
+    myForm.append('email', email);
+    myForm.append('password', password);
+    myForm.append('avatar', {
+      url: avatar,
+      name: avatar.split('/').pop(),
+    });
+
+    dispatch(registerProfile(myForm));
+  };
   const handleImage = async () => {
     let options = {
       storageOptions: {
@@ -42,21 +56,21 @@ const Register = ({navigation}) => {
       <View style={styles.container2}>
         <TextInput
           style={styles.input1}
-          placeholder="Email"
+          placeholder="Name"
           value={name}
-          onChange={setName}
+          onChangeText={setName}
         />
         <TextInput
           style={styles.input1}
           placeholder="Email"
           value={email}
-          onChange={setEmail}
+          onChangeText={setEmail}
         />
         <TextInput
           style={styles.input1}
           placeholder="Password"
           value={password}
-          onChange={setPassword}
+          onChangeText={setPassword}
           secureTextEntry
         />
       </View>
