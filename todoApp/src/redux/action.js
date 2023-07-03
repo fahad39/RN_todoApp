@@ -11,6 +11,9 @@ import {
   userFailure,
   userRequest,
   userSuccess,
+  verifyFailure,
+  verifyRequest,
+  verifySuccess,
 } from './reducer';
 import api from '../api/configAxios';
 import {
@@ -135,5 +138,14 @@ export const updatePassword = (oldPassword, newPassword) => async dispatch => {
     dispatch(updatePasswordSuccess(data.message));
   } catch (error) {
     dispatch(updatePasswordFailure(error.response.data.message));
+  }
+};
+export const verifyAccount = otp => async dispatch => {
+  try {
+    dispatch(verifyRequest());
+    const {data} = await api.post('verify', {otp});
+    dispatch(verifySuccess(data.message));
+  } catch (error) {
+    dispatch(verifyFailure(error.response.data.message));
   }
 };

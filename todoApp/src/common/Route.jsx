@@ -5,4 +5,5 @@ export const ROUTE = {
   Register: 'register',
   Password: 'Password',
   ForgetPassword: 'ForgetPassword',
+  Verify: 'Verify',
 };

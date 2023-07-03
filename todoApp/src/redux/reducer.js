@@ -70,6 +70,17 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = action.payload;
     },
+    verifyRequest: state => {
+      state.loading = true;
+    },
+    verifySuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user;
+    },
+    verifyFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -88,6 +99,9 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailure,
+  verifyRequest,
+  verifySuccess,
+  verifyFailure,
 } = authSlice.actions;
 
 export default authSlice.reducer;

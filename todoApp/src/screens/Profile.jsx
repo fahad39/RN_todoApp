@@ -71,6 +71,19 @@ const Profile = ({navigation}) => {
         onPress={() => navigation.navigate(ROUTE.Password)}>
         <Text style={{color: '#fff'}}>Change Password</Text>
       </Button>
+      {user.verified ? null : (
+        <Button
+          style={styles.btn}
+          onPress={() => navigation.navigate(ROUTE.Verify)}>
+          <Text style={{color: '#fff'}}>Verify</Text>
+        </Button>
+      )}
+      <Button
+        style={styles.btn}
+        onPress={() => navigation.navigate(ROUTE.Verify)}>
+        <Text style={{color: '#fff'}}>Verify</Text>
+      </Button>
+
       <Button style={styles.btn} onPress={logoutHandler}>
         <Text style={{color: '#fff'}}>Logout</Text>
       </Button>
