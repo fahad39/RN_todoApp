@@ -20,6 +20,9 @@ import {
   deleteTaskFailure,
   deleteTaskRequest,
   deleteTaskSuccess,
+  updatePasswordFailure,
+  updatePasswordRequest,
+  updatePasswordSuccess,
   updateTaskFailure,
   updateTaskRequest,
   updateTaskSuccess,
@@ -122,5 +125,15 @@ export const registerProfile = formData => async dispatch => {
     dispatch(registerSuccess(data.message));
   } catch (error) {
     dispatch(registerFailure(error.response.data.message));
+  }
+};
+
+export const updatePassword = (oldPassword, newPassword) => async dispatch => {
+  try {
+    dispatch(updatePasswordRequest());
+    const {data} = await api.put('updatepassword', {oldPassword, newPassword});
+    dispatch(updatePasswordSuccess(data.message));
+  } catch (error) {
+    dispatch(updatePasswordFailure(error.response.data.message));
   }
 };

@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {loadUser} from '../redux/action';
 import {Text} from 'react-native-paper';
 import Loader from '../components/Loader';
+import Password from '../screens/Password';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ const Navigation = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen name={ROUTE.Profile} component={Profile} />
+        <Stack.Screen name={ROUTE.Password} component={Password} />
       </Stack.Navigator>
       {isAuthenticated && <Footer />}
     </NavigationContainer>
