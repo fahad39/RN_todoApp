@@ -81,6 +81,28 @@ export const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    forgetPasswordRequest: state => {
+      state.loading = true;
+    },
+    forgetPasswordSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user;
+    },
+    forgetPasswordFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    resetPasswordRequest: state => {
+      state.loading = true;
+    },
+    resetPasswordSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user;
+    },
+    resetPasswordFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -102,6 +124,12 @@ export const {
   verifyRequest,
   verifySuccess,
   verifyFailure,
+  forgetPasswordRequest,
+  forgetPasswordSuccess,
+  forgetPasswordFailure,
+  resetPasswordRequest,
+  resetPasswordSuccess,
+  resetPasswordFailure,
 } = authSlice.actions;
 
 export default authSlice.reducer;

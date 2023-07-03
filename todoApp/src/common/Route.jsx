@@ -6,4 +6,5 @@ export const ROUTE = {
   Password: 'Password',
   ForgetPassword: 'ForgetPassword',
   Verify: 'Verify',
+  ResetPassword: 'ResetPassword',
 };

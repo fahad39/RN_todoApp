@@ -1,4 +1,7 @@
 import {
+  forgetPasswordFailure,
+  forgetPasswordRequest,
+  forgetPasswordSuccess,
   loginFailure,
   loginRequest,
   loginSuccess,
@@ -8,6 +11,9 @@ import {
   registerFailure,
   registerRequest,
   registerSuccess,
+  resetPasswordFailure,
+  resetPasswordRequest,
+  resetPasswordSuccess,
   userFailure,
   userRequest,
   userSuccess,
@@ -138,6 +144,24 @@ export const updatePassword = (oldPassword, newPassword) => async dispatch => {
     dispatch(updatePasswordSuccess(data.message));
   } catch (error) {
     dispatch(updatePasswordFailure(error.response.data.message));
+  }
+};
+export const forgetPassword = email => async dispatch => {
+  try {
+    dispatch(forgetPasswordRequest());
+    const {data} = await api.post('forgetpassword', {email});
+    dispatch(forgetPasswordSuccess(data.message));
+  } catch (error) {
+    dispatch(forgetPasswordFailure(error.response.data.message));
+  }
+};
+export const resetPassword = (otp, newPassword) => async dispatch => {
+  try {
+    dispatch(resetPasswordRequest());
+    const {data} = await api.post('resetpassword', {otp, newPassword});
+    dispatch(resetPasswordSuccess(data.message));
+  } catch (error) {
+    dispatch(resetPasswordFailure(error.response.data.message));
   }
 };
 export const verifyAccount = otp => async dispatch => {

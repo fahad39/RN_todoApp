@@ -14,6 +14,8 @@ import {Text} from 'react-native-paper';
 import Loader from '../components/Loader';
 import Password from '../screens/Password';
 import Verify from '../screens/Verify';
+import ForgetPassword from '../screens/ForgetPassword';
+import ResetPassword from '../screens/ResetPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +49,9 @@ const Navigation = () => {
         />
         <Stack.Screen name={ROUTE.Profile} component={Profile} />
         <Stack.Screen name={ROUTE.Password} component={Password} />
+        <Stack.Screen name={ROUTE.ForgetPassword} component={ForgetPassword} />
         <Stack.Screen name={ROUTE.Verify} component={Verify} />
+        <Stack.Screen name={ROUTE.ResetPassword} component={ResetPassword} />
       </Stack.Navigator>
       {isAuthenticated && <Footer />}
     </NavigationContainer>

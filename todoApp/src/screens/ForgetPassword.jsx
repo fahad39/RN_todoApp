@@ -1,27 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from 'react-native';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 import {Button} from 'react-native-paper';
 import {ROUTE} from '../common/Route';
 import {useDispatch, useSelector} from 'react-redux';
-import {login} from '../redux/action';
+import {forgetPassword, updatePassword} from '../redux/action';
 import {clearError} from '../redux/reducer';
 
-const Login = ({navigation}) => {
+const ForgetPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
   const dispatch = useDispatch();
-  const {isAuthenticated, loading, error} = useSelector(state => state.auth);
-  const loginHandler = () => {
-    dispatch(clearError());
-    dispatch(login(email, password));
+  const {loading, error} = useSelector(state => state.auth);
+
+  const changePasswordHandler = async () => {
+    await dispatch(forgetPassword(email));
+    navigation.navigate(ROUTE.ResetPassword);
   };
   useEffect(() => {
     if (error !== '') {
@@ -31,43 +24,29 @@ const Login = ({navigation}) => {
 
   return (
     <View style={styles.container1}>
-      <Text style={styles.txt1}>WELCOME</Text>
+      <Text style={styles.txt1}>Change Password</Text>
       <View style={styles.container2}>
         <TextInput
           style={styles.input1}
-          placeholder="Email"
+          placeholder="Enter Email"
           value={email}
           onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input1}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
           secureTextEntry
         />
 
         <Button
-          disabled={!email || !password}
+          disabled={loading}
           style={styles.btn}
-          onPress={loginHandler}>
-          <Text style={styles.txt2}>{loading ? 'Loading' : 'Login'}</Text>
+          loading={loading}
+          onPress={changePasswordHandler}>
+          <Text style={styles.txt2}>Send Email</Text>
         </Button>
-        <Text style={styles.txt3}>Or</Text>
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTE.Register)}>
-          <Text style={styles.txt4}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(ROUTE.ForgetPassword)}>
-          <Text style={styles.txt4}>Forget Password</Text>
-        </TouchableOpacity>
-        <Text>{err}</Text>
       </View>
     </View>
   );
 };
 
-export default Login;
+export default ForgetPassword;
 
 const styles = StyleSheet.create({
   container1: {
@@ -99,6 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#900',
     padding: 5,
     width: '70%',
+    color: '#fff',
   },
   txt2: {
     color: '#fff',
