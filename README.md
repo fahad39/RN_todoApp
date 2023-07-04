@@ -39,3 +39,5 @@ Install my-project with npm
 ## Screenshots
 
 ![App Screenshot](./public/phone1.PNG)
+![App Screenshot](./public/phone2.PNG)
+![App Screenshot](./public/phone3.PNG)
