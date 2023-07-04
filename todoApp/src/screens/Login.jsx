@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#900',
     padding: 5,
     width: '70%',
+    marginTop: 70,
   },
   txt2: {
     color: '#fff',
